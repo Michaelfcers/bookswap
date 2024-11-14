@@ -54,38 +54,39 @@ class StartPageState extends State<StartPage> with SingleTickerProviderStateMixi
               opacity: _fadeInAnimation,
               child: SlideTransition(
                 position: _slideAnimation,
-                child: Column(
-                  children: const [
-                    Text(
-                      'Bienvenido a',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w300,
-                        color: Color(0xFF8C2F39),
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'BookSwap',
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF8C2F39),
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 20),
-                    Text(
-                      'Intercambia tus libros favoritos con otros lectores. Explora, descubre y conecta con la comunidad de trueque de libros.',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Color(0xFF8C2F39),
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
+                child: const Column(
+  children: [
+    Text(
+      'Bienvenido a',
+      style: TextStyle(
+        fontSize: 28,
+        fontWeight: FontWeight.w300,
+        color: Color(0xFF8C2F39),
+      ),
+      textAlign: TextAlign.center,
+    ),
+    SizedBox(height: 10),
+    Text(
+      'BookSwap',
+      style: TextStyle(
+        fontSize: 36,
+        fontWeight: FontWeight.bold,
+        color: Color(0xFF8C2F39),
+      ),
+      textAlign: TextAlign.center,
+    ),
+    SizedBox(height: 20),
+    Text(
+      'Intercambia tus libros favoritos con otros lectores. Explora, descubre y conecta con la comunidad de trueque de libros.',
+      style: TextStyle(
+        fontSize: 18,
+        color: Color(0xFF8C2F39),
+      ),
+      textAlign: TextAlign.center,
+    ),
+  ],
+),
+
               ),
             ),
 
