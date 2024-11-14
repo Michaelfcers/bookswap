@@ -12,7 +12,7 @@ class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-ProfileScreenState createState() => ProfileScreenState();
+  ProfileScreenState createState() => ProfileScreenState();
 }
 
 class ProfileScreenState extends State<ProfileScreen> {
@@ -35,10 +35,10 @@ class ProfileScreenState extends State<ProfileScreen> {
         isLoading = false;
       });
     } catch (error) {
-      debugPrint('Error al cargar los libros: $error'); // Utiliza debugPrint en vez de print
+      debugPrint(
+          'Error al cargar los libros: $error'); // Utiliza debugPrint en vez de print
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +72,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                 const CircleAvatar(
                   radius: 40,
                   backgroundColor: Colors.grey,
-                  child: Icon(Icons.person, size: 40, color: AppColors.textLight),
+                  child:
+                      Icon(Icons.person, size: 40, color: AppColors.textLight),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -94,7 +95,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                       const SizedBox(height: 10),
                       const LinearProgressIndicator(
                         value: 0.75,
-                        color: AppColors.iconSelected, // Usamos el color morado en la barra de progreso
+                        color: AppColors
+                            .iconSelected, // Usamos el color morado en la barra de progreso
                         backgroundColor: Colors.grey,
                       ),
                       const SizedBox(height: 5),
@@ -177,10 +179,10 @@ class ProfileScreenState extends State<ProfileScreen> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 elevation: 3,
-                child: Center(
+                child: const Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Icon(Icons.add, color: AppColors.iconSelected, size: 36),
                       SizedBox(height: 8),
                       Text(
@@ -267,9 +269,18 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildAchievementsList() {
     final achievements = [
-      {"title": "Bibliófilo Novato", "description": "Subir 5 libros para trueque."},
-      {"title": "Lector Ávido", "description": "Realizar 10 trueques exitosos."},
-      {"title": "Explorador de Géneros", "description": "Trueques en 5 géneros diferentes."},
+      {
+        "title": "Bibliófilo Novato",
+        "description": "Subir 5 libros para trueque."
+      },
+      {
+        "title": "Lector Ávido",
+        "description": "Realizar 10 trueques exitosos."
+      },
+      {
+        "title": "Explorador de Géneros",
+        "description": "Trueques en 5 géneros diferentes."
+      },
     ];
 
     return ListView.builder(
@@ -280,7 +291,8 @@ class ProfileScreenState extends State<ProfileScreen> {
           color: AppColors.cardBackground,
           margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 16),
           child: ListTile(
-            leading: const Icon(Icons.emoji_events, color: AppColors.iconSelected),
+            leading:
+                const Icon(Icons.emoji_events, color: AppColors.iconSelected),
             title: Text(
               achievement["title"]!,
               style: const TextStyle(color: AppColors.textSecondary),
@@ -308,7 +320,9 @@ class ProfileScreenState extends State<ProfileScreen> {
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                color: _selectedTabIndex == index ? AppColors.iconSelected : Colors.transparent,
+                color: _selectedTabIndex == index
+                    ? AppColors.iconSelected
+                    : Colors.transparent,
                 width: 2,
               ),
             ),
@@ -316,7 +330,9 @@ class ProfileScreenState extends State<ProfileScreen> {
           child: Center(
             child: Icon(
               icon,
-              color: _selectedTabIndex == index ? AppColors.iconSelected : AppColors.textLight,
+              color: _selectedTabIndex == index
+                  ? AppColors.iconSelected
+                  : AppColors.textLight,
               size: 28,
             ),
           ),
