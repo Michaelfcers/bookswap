@@ -1,35 +1,51 @@
-// lib/main.dart
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart'; // Importamos Provider para manejar el estado global
+import 'styles/colors.dart'; // Importamos los colores y lógica dinámica
+import 'styles/theme_notifier.dart'; // Importamos ThemeNotifier
 import 'views/Home/home_screen.dart';
 import 'views/Search/search_screen.dart';
 import 'views/Profile/profile_screen.dart';
+import 'views/Profile/profile_logged_out_screen.dart'; // Nueva pantalla
 import 'views/Layout/layout.dart';
 import 'views/Home/start_page.dart'; // Importamos la pantalla de inicio
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ThemeNotifier(), // Proveemos ThemeNotifier
+      child: const MyApp(),
+    ),
+  );
 }
+
+// Simulación de estado global para inicio de sesión
+bool isUserLoggedIn = false; // Cambiar según el estado del usuario
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context); // Accedemos al estado del tema actual
+
     return MaterialApp(
       title: 'BookSwap',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/start', // Establecemos startPage como la ruta inicial
+      theme: AppColors.getThemeData(false), // Tema claro personalizado desde AppColors
+      darkTheme: AppColors.getThemeData(true), // Tema oscuro personalizado desde AppColors
+      themeMode: themeNotifier.isDarkMode ? ThemeMode.dark : ThemeMode.light, // Selección dinámica de tema
+      initialRoute: '/start', // Ruta inicial
       routes: {
-        '/start': (context) => const StartPage(), // Ruta para startPage
-        '/home': (context) => const LayoutWrapper(index: 0), // El índice 0 es para Home
-        '/search': (context) => const LayoutWrapper(index: 1),
-        '/profile': (context) => const LayoutWrapper(index: 2),
+        '/start': (context) => const StartPage(), // Pantalla inicial
+        '/home': (context) => const LayoutWrapper(index: 0), // Pantalla Home
+        '/search': (context) => const LayoutWrapper(index: 1), // Pantalla Buscar
+        '/profile': (context) => const LayoutWrapper(index: 2), // Pantalla Perfil
       },
     );
   }
 }
 
-// A wrapper for the Layout widget to manage tab navigation
+// Wrapper para administrar la navegación entre tabs en el layout principal
 class LayoutWrapper extends StatelessWidget {
   final int index;
   const LayoutWrapper({super.key, required this.index});
@@ -39,14 +55,16 @@ class LayoutWrapper extends StatelessWidget {
     final List<Widget> screens = [
       const HomeScreen(),    // Índice 0 - Home
       const SearchScreen(),  // Índice 1 - Buscar
-      const ProfileScreen(), // Índice 2 - Perfil
+      isUserLoggedIn
+          ? const ProfileScreen() // Índice 2 - Perfil (logueado)
+          : const ProfileLoggedOutScreen(), // Índice 2 - Perfil (no logueado)
     ];
 
     return Layout(
-      body: screens[index],
+      body: screens[index], // Pantalla actual según el índice
       currentIndex: index,
       onTabSelected: (selectedIndex) {
-        // Navegación en función del índice seleccionado
+        // Navegación según la tab seleccionada
         String route;
         switch (selectedIndex) {
           case 0:
@@ -61,7 +79,7 @@ class LayoutWrapper extends StatelessWidget {
             break;
         }
         if (selectedIndex != index) {
-          Navigator.pushReplacementNamed(context, route);
+          Navigator.pushReplacementNamed(context, route); // Navegación con reemplazo
         }
       },
     );

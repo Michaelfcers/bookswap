@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import '../../styles/colors.dart';
 
 class EditProfileScreen extends StatelessWidget {
-  final TextEditingController nameController = TextEditingController(text: "Usuario123");
-  final TextEditingController nicknameController = TextEditingController(text: "user_nickname");
-  final TextEditingController emailController = TextEditingController(text: "usuario123@example.com");
+  final TextEditingController nameController =
+      TextEditingController(text: "Usuario123");
+  final TextEditingController nicknameController =
+      TextEditingController(text: "user_nickname");
+  final TextEditingController emailController =
+      TextEditingController(text: "usuario123@example.com");
 
-  // Constructor sin `const` y usando el super parámetro
   EditProfileScreen({super.key});
 
   void _saveChanges(BuildContext context) {
-    // Mostrar confirmación de guardado
     showConfirmationDialog(context);
 
-    // Mostrar SnackBar con opción para deshacer
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text("Cambios guardados"),
@@ -22,7 +22,6 @@ class EditProfileScreen extends StatelessWidget {
           label: "Deshacer",
           textColor: AppColors.iconSelected,
           onPressed: () {
-            // Lógica para deshacer los cambios
             nameController.text = "Usuario123";
             nicknameController.text = "user_nickname";
             emailController.text = "usuario123@example.com";
@@ -38,27 +37,34 @@ class EditProfileScreen extends StatelessWidget {
       builder: (context) {
         return AlertDialog(
           backgroundColor: AppColors.cardBackground,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          title: const Text(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          title: Text(
             "¡Cambios guardados con éxito!",
             textAlign: TextAlign.center,
-            style: TextStyle(color: AppColors.textDark),
+            style: TextStyle(color: AppColors.textPrimary),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.check_circle, color: Colors.green, size: 50),
+              Icon(Icons.check_circle, color: Colors.green, size: 50),
               const SizedBox(height: 10),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.iconSelected,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 12,
+                  ),
                 ),
                 onPressed: () => Navigator.of(context).pop(),
-                child: const Text(
+                child: Text(
                   "Aceptar",
-                  style: TextStyle(color: AppColors.textLight),
+                  style: TextStyle(color: AppColors.textPrimary),
                 ),
               ),
             ],
@@ -74,9 +80,12 @@ class EditProfileScreen extends StatelessWidget {
       backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        title: const Text("Editar Perfil", style: TextStyle(color: AppColors.textLight)),
+        title: Text(
+          "Editar Perfil",
+          style: TextStyle(color: AppColors.textPrimary),
+        ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textLight),
+          icon: Icon(Icons.arrow_back, color: AppColors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -87,23 +96,27 @@ class EditProfileScreen extends StatelessWidget {
             Center(
               child: Stack(
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 50,
-                    backgroundColor: Colors.grey,
-                    child: Icon(Icons.person, size: 50, color: AppColors.textLight),
+                    backgroundColor: AppColors.shadow,
+                    child: Icon(
+                      Icons.person,
+                      size: 50,
+                      color: AppColors.textPrimary,
+                    ),
                   ),
                   Positioned(
                     bottom: 0,
                     right: 4,
                     child: Container(
                       padding: const EdgeInsets.all(6),
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: AppColors.iconSelected,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.camera_alt,
-                        color: AppColors.textLight,
+                        color: AppColors.textPrimary,
                         size: 20,
                       ),
                     ),
@@ -121,13 +134,18 @@ class EditProfileScreen extends StatelessWidget {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.iconSelected,
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 14,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
               onPressed: () => _saveChanges(context),
-              child: const Text(
+              child: Text(
                 "Guardar cambios",
-                style: TextStyle(color: AppColors.textLight),
+                style: TextStyle(color: AppColors.textPrimary),
               ),
             ),
           ],
@@ -142,15 +160,15 @@ class EditProfileScreen extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
-            color: AppColors.textLight,
+          style: TextStyle(
+            color: AppColors.textPrimary,
             fontSize: 16,
           ),
         ),
         const SizedBox(height: 5),
         TextField(
           controller: controller,
-          style: const TextStyle(color: AppColors.textDark),
+          style: TextStyle(color: AppColors.textPrimary),
           decoration: InputDecoration(
             filled: true,
             fillColor: AppColors.cardBackground,

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import '../../models/book_model.dart';
 import '../../styles/colors.dart';
-import 'add_book_dialog.dart'; // Diálogo de agregar libro
+import 'add_book_dialog.dart';
 
 class TradeProposalScreen extends StatefulWidget {
   final List<Book> availableBooks;
@@ -10,10 +10,10 @@ class TradeProposalScreen extends StatefulWidget {
   const TradeProposalScreen({super.key, required this.availableBooks});
 
   @override
-  TradeProposalScreenState createState() => TradeProposalScreenState(); // Clase de estado pública
+  TradeProposalScreenState createState() => TradeProposalScreenState();
 }
 
-class TradeProposalScreenState extends State<TradeProposalScreen> { // Clase de estado pública
+class TradeProposalScreenState extends State<TradeProposalScreen> {
   final List<Book> selectedBooks = [];
   bool selectAll = false;
 
@@ -60,19 +60,19 @@ class TradeProposalScreenState extends State<TradeProposalScreen> { // Clase de 
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: AppColors.cardBackground,
-          title: const Text(
+          title: Text(
             'Confirmar Propuesta',
             textAlign: TextAlign.center,
-            style: TextStyle(color: AppColors.textDark),
+            style: TextStyle(color: AppColors.textPrimary),
           ),
-          content: const Text(
+          content: Text(
             '¿Estás seguro que deseas proponer el trueque con los libros seleccionados?',
             style: TextStyle(color: AppColors.textSecondary),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancelar', style: TextStyle(color: AppColors.iconSelected)),
+              child: Text('Cancelar', style: TextStyle(color: AppColors.iconSelected)),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -83,7 +83,7 @@ class TradeProposalScreenState extends State<TradeProposalScreen> { // Clase de 
                 showSuccessDialog();
                 showUndoSnackbar();
               },
-              child: const Text('Confirmar', style: TextStyle(color: AppColors.textLight)),
+              child: Text('Confirmar', style: TextStyle(color: AppColors.textPrimary)),
             ),
           ],
         );
@@ -97,18 +97,19 @@ class TradeProposalScreenState extends State<TradeProposalScreen> { // Clase de 
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: AppColors.cardBackground,
-          content: const Column(
+          content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(Icons.check_circle, color: Colors.green, size: 60),
               SizedBox(height: 10),
-              Text('¡Propuesta realizada con éxito!', textAlign: TextAlign.center, style: TextStyle(color: AppColors.textDark)),
+              Text('¡Propuesta realizada con éxito!',
+                  textAlign: TextAlign.center, style: TextStyle(color: AppColors.textPrimary)),
             ],
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Aceptar', style: TextStyle(color: AppColors.iconSelected)),
+              child: Text('Aceptar', style: TextStyle(color: AppColors.iconSelected)),
             ),
           ],
         );
@@ -119,7 +120,7 @@ class TradeProposalScreenState extends State<TradeProposalScreen> { // Clase de 
   void showUndoSnackbar() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text('Enviado', style: TextStyle(color: AppColors.textLight)),
+        content: Text('Propuesta enviada', style: TextStyle(color: AppColors.textPrimary)),
         backgroundColor: AppColors.primary,
         action: SnackBarAction(
           label: 'Deshacer',
@@ -136,18 +137,18 @@ class TradeProposalScreenState extends State<TradeProposalScreen> { // Clase de 
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: AppColors.cardBackground,
-          title: const Text(
+          title: Text(
             'Confirmar Deshacer',
-            style: TextStyle(color: AppColors.textDark),
+            style: TextStyle(color: AppColors.textPrimary),
           ),
-          content: const Text(
+          content: Text(
             '¿Estás seguro que deseas deshacer la propuesta de trueque?',
             style: TextStyle(color: AppColors.textSecondary),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancelar', style: TextStyle(color: AppColors.iconSelected)),
+              child: Text('Cancelar', style: TextStyle(color: AppColors.iconSelected)),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -156,13 +157,13 @@ class TradeProposalScreenState extends State<TradeProposalScreen> { // Clase de 
               onPressed: () {
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Propuesta de trueque deshecha', style: TextStyle(color: AppColors.textLight)),
+                  SnackBar(
+                    content: Text('Propuesta de trueque deshecha', style: TextStyle(color: AppColors.textPrimary)),
                     backgroundColor: AppColors.primary,
                   ),
                 );
               },
-              child: const Text('Deshacer', style: TextStyle(color: AppColors.textLight)),
+              child: Text('Deshacer', style: TextStyle(color: AppColors.textPrimary)),
             ),
           ],
         );
@@ -176,9 +177,9 @@ class TradeProposalScreenState extends State<TradeProposalScreen> { // Clase de 
       backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        title: const Text('Proponer Trueque', style: TextStyle(color: AppColors.textLight)),
+        title: Text('Proponer Trueque', style: TextStyle(color: AppColors.textPrimary)),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textLight),
+          icon: Icon(Icons.arrow_back, color: AppColors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -186,18 +187,18 @@ class TradeProposalScreenState extends State<TradeProposalScreen> { // Clase de 
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const Text(
+            Text(
               'Selecciona los libros que deseas proponer para el trueque',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textLight),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   'Seleccionar Todo',
-                  style: TextStyle(color: AppColors.textLight, fontSize: 16),
+                  style: TextStyle(color: AppColors.textPrimary, fontSize: 16),
                 ),
                 Checkbox(
                   value: selectAll,
@@ -208,49 +209,43 @@ class TradeProposalScreenState extends State<TradeProposalScreen> { // Clase de 
               ],
             ),
             Expanded(
-  child: ListView.builder(
-    itemCount: widget.availableBooks.length + 1, // +1 para el botón de agregar
-    itemBuilder: (context, index) {
-      if (index == widget.availableBooks.length) {
-        // Botón para agregar un nuevo libro
-        return GestureDetector(
-          onTap: addNewBook,
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 8.0),
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              color: AppColors.cardBackground,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 4,
-                  offset: Offset(2, 2),
-                ),
-              ],
-            ),
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.add, color: AppColors.iconSelected),
-              SizedBox(width: 8),
-              Text(
-                'Agregar libro',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.iconSelected,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      } else {
-        final book = widget.availableBooks[index];
-        final isSelected = selectedBooks.contains(book);
+              child: ListView.builder(
+                itemCount: widget.availableBooks.length + 1,
+                itemBuilder: (context, index) {
+                  if (index == widget.availableBooks.length) {
+                    return GestureDetector(
+                      onTap: addNewBook,
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 8.0),
+                        padding: const EdgeInsets.all(16.0),
+                        decoration: BoxDecoration(
+                          color: AppColors.cardBackground,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.shadow,
+                              blurRadius: 4,
+                              offset: const Offset(2, 2),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.add, color: AppColors.iconSelected),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Agregar libro',
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.iconSelected),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  } else {
+                    final book = widget.availableBooks[index];
+                    final isSelected = selectedBooks.contains(book);
 
-        
                     return GestureDetector(
                       onTap: () => toggleBookSelection(book),
                       child: Container(
@@ -259,11 +254,11 @@ class TradeProposalScreenState extends State<TradeProposalScreen> { // Clase de 
                         decoration: BoxDecoration(
                           color: AppColors.cardBackground,
                           borderRadius: BorderRadius.circular(12),
-                          boxShadow: const [
+                          boxShadow: [
                             BoxShadow(
-                              color: Colors.black12,
+                              color: AppColors.shadow,
                               blurRadius: 4,
-                              offset: Offset(2, 2),
+                              offset: const Offset(2, 2),
                             ),
                           ],
                         ),
@@ -274,7 +269,7 @@ class TradeProposalScreenState extends State<TradeProposalScreen> { // Clase de 
                               height: 80,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: Colors.grey.shade300,
+                                color: AppColors.shadow,
                                 image: book.thumbnail.isNotEmpty
                                     ? DecorationImage(
                                         image: NetworkImage(book.thumbnail),
@@ -283,7 +278,12 @@ class TradeProposalScreenState extends State<TradeProposalScreen> { // Clase de 
                                     : null,
                               ),
                               child: book.thumbnail.isEmpty
-                                  ? const Center(child: Text('Sin imagen'))
+                                  ? Center(
+                                      child: Text(
+                                        'Sin imagen',
+                                        style: TextStyle(color: AppColors.textSecondary),
+                                      ),
+                                    )
                                   : null,
                             ),
                             const SizedBox(width: 16),
@@ -293,13 +293,13 @@ class TradeProposalScreenState extends State<TradeProposalScreen> { // Clase de 
                                 children: [
                                   Text(
                                     book.title,
-                                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.textDark),
+                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   Text(
                                     book.author,
-                                    style: const TextStyle(fontSize: 14, color: AppColors.textSecondary),
+                                    style: TextStyle(fontSize: 14, color: AppColors.textSecondary),
                                   ),
                                 ],
                               ),
@@ -320,13 +320,13 @@ class TradeProposalScreenState extends State<TradeProposalScreen> { // Clase de 
             const SizedBox(height: 16),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: selectedBooks.isEmpty ? Colors.grey : AppColors.iconSelected,
+                backgroundColor: selectedBooks.isEmpty ? AppColors.shadow : AppColors.iconSelected,
                 padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
               ),
               onPressed: selectedBooks.isEmpty ? null : proposeTrade,
-              child: const Text(
+              child: Text(
                 'Proponer Trueque',
-                style: TextStyle(fontSize: 16, color: AppColors.textLight),
+                style: TextStyle(fontSize: 16, color: AppColors.textPrimary),
               ),
             ),
           ],

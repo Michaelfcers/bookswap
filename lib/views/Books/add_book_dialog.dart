@@ -12,40 +12,40 @@ class AddBookDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
-      child: SingleChildScrollView( // Permitir scroll si el contenido es demasiado grande
+      child: SingleChildScrollView(
         child: Container(
           width: MediaQuery.of(context).size.width * 0.85,
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
+              Text(
                 "Agregar Libro",
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.primary, // Usar color primario
+                  color: AppColors.primary,
                 ),
               ),
               const SizedBox(height: 20),
-              const Icon(Icons.image, size: 60, color: AppColors.primary),
+              Icon(Icons.image, size: 60, color: AppColors.primary),
               const SizedBox(height: 10),
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Título',
-                  labelStyle: const TextStyle(color: AppColors.primary, fontSize: 16),
+                  labelStyle: TextStyle(color: AppColors.textSecondary, fontSize: 16),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                   filled: true,
-                  fillColor: AppColors.cardBackground, // Fondo del campo de texto
+                  fillColor: AppColors.cardBackground,
                 ),
               ),
               const SizedBox(height: 10),
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Descripción',
-                  labelStyle: const TextStyle(color: AppColors.primary, fontSize: 16),
+                  labelStyle: TextStyle(color: AppColors.textSecondary, fontSize: 16),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -60,10 +60,10 @@ class AddBookDialog extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => const AddBookManualScreen()),
                   );
                 },
-                child: const Text(
+                child: Text(
                   "¿No encuentras tu libro?",
                   style: TextStyle(
-                    color: AppColors.primary,
+                    color: AppColors.iconSelected,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
@@ -82,9 +82,9 @@ class AddBookDialog extends StatelessWidget {
                       ),
                     ),
                     onPressed: () => Navigator.pop(context),
-                    child: const Text(
+                    child: Text(
                       "Cerrar",
-                      style: TextStyle(color: AppColors.textLight, fontSize: 16),
+                      style: TextStyle(color: AppColors.textPrimary, fontSize: 16),
                     ),
                   ),
                   ElevatedButton(
@@ -98,9 +98,9 @@ class AddBookDialog extends StatelessWidget {
                     onPressed: () {
                       // Implementar la lógica para agregar desde la API
                     },
-                    child: const Text(
+                    child: Text(
                       "Agregar",
-                      style: TextStyle(color: AppColors.textLight, fontSize: 16),
+                      style: TextStyle(color: AppColors.textPrimary, fontSize: 16),
                     ),
                   ),
                 ],

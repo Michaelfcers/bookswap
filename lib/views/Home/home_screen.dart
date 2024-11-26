@@ -46,7 +46,7 @@ class HomeScreenState extends State<HomeScreen> {
         isLoading = false;
       });
     } catch (error) {
-      debugPrint('Error: $error'); // Usa debugPrint en lugar de print
+      debugPrint('Error: $error');
 
       if (!mounted) return;
 
@@ -57,24 +57,24 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Layout(
-      body: Scaffold(
-        backgroundColor: AppColors.scaffoldBackground,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: AppColors.primary,
-          title: Text(
-            "BookSwap",
-            style: GoogleFonts.poppins(
-              color: AppColors.textLight,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+Widget build(BuildContext context) {
+  return Layout(
+    body: Scaffold(
+      backgroundColor: AppColors.scaffoldBackground, // Dinámico
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: AppColors.primary, // Dinámico
+        title: Text(
+          "BookSwap",
+          style: GoogleFonts.poppins(
+            color: AppColors.tittle, // Dinámico
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
             ),
           ),
           actions: [
             IconButton(
-              icon: const Icon(Icons.message, color: AppColors.textLight),
+              icon: Icon(Icons.message, color: AppColors.textPrimary), // Dinámico
               onPressed: () {
                 Navigator.push(
                   context,
@@ -83,7 +83,7 @@ class HomeScreenState extends State<HomeScreen> {
               },
             ),
             IconButton(
-              icon: const Icon(Icons.notifications, color: AppColors.textLight),
+              icon: Icon(Icons.notifications, color: AppColors.textPrimary), // Dinámico
               onPressed: () {
                 Navigator.push(
                   context,
@@ -94,11 +94,11 @@ class HomeScreenState extends State<HomeScreen> {
           ],
         ),
         body: Container(
-          color: AppColors.scaffoldBackground,
+          color: AppColors.scaffoldBackground, // Dinámico
           child: isLoading
               ? _buildSkeletonLoader()
               : RefreshIndicator(
-                  color: AppColors.primary,
+                  color: AppColors.primary, // Dinámico
                   onRefresh: fetchBooks,
                   child: ListView(
                     padding: const EdgeInsets.all(16.0),
@@ -119,14 +119,14 @@ class HomeScreenState extends State<HomeScreen> {
                 ),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppColors.primary, // Dinámico
           onPressed: () {
             showDialog(
               context: context,
               builder: (BuildContext context) => const AddBookDialog(),
             );
           },
-          child: const Icon(Icons.add, color: AppColors.textLight),
+          child: Icon(Icons.add, color: AppColors.textPrimary), // Dinámico
         ),
       ),
       showBottomNav: false,
@@ -139,7 +139,7 @@ class HomeScreenState extends State<HomeScreen> {
       style: GoogleFonts.poppins(
         fontSize: 22,
         fontWeight: FontWeight.bold,
-        color: AppColors.textLight,
+        color: AppColors.textPrimary, // Dinámico
       ),
     );
   }
@@ -169,13 +169,13 @@ class HomeScreenState extends State<HomeScreen> {
             margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: AppColors.cardBackground,
-              boxShadow: const [
+              color: AppColors.cardBackground, // Dinámico
+              boxShadow: [
                 BoxShadow(
-                  color: AppColors.shadow,
+                  color: AppColors.shadow, // Dinámico
                   spreadRadius: 2,
                   blurRadius: 8,
-                  offset: Offset(0, 4),
+                  offset: const Offset(0, 4),
                 ),
               ],
             ),
@@ -209,7 +209,7 @@ class HomeScreenState extends State<HomeScreen> {
                         style: GoogleFonts.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.textDark,
+                          color: AppColors.textPrimary, // Dinámico
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -219,7 +219,7 @@ class HomeScreenState extends State<HomeScreen> {
                         book.author,
                         style: GoogleFonts.poppins(
                           fontSize: 14,
-                          color: AppColors.textSecondary,
+                          color: AppColors.textSecondary, // Dinámico
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -235,7 +235,6 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Skeleton loader para la precarga con una animación más notoria
   Widget _buildSkeletonLoader() {
     return ListView(
       padding: const EdgeInsets.all(16.0),
@@ -255,7 +254,6 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Skeleton Carousel con efecto shimmer más notorio
   Widget _buildSkeletonCarousel() {
     return CarouselSlider(
       options: CarouselOptions(
@@ -269,14 +267,14 @@ class HomeScreenState extends State<HomeScreen> {
       ),
       items: List.generate(5, (index) {
         return Shimmer.fromColors(
-          baseColor: Colors.grey.shade800,
-          highlightColor: Colors.grey.shade500,
+          baseColor: AppColors.shadow, // Dinámico
+          highlightColor: AppColors.cardBackground, // Dinámico
           period: const Duration(seconds: 1),
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: Colors.grey.shade700,
+              color: AppColors.cardBackground, // Dinámico
             ),
             child: Column(
               children: [
@@ -287,7 +285,7 @@ class HomeScreenState extends State<HomeScreen> {
                         topLeft: Radius.circular(15),
                         topRight: Radius.circular(15),
                       ),
-                      color: Colors.grey.shade700,
+                      color: AppColors.cardBackground, // Dinámico
                     ),
                   ),
                 ),
@@ -298,13 +296,13 @@ class HomeScreenState extends State<HomeScreen> {
                       Container(
                         height: 16,
                         width: 120,
-                        color: Colors.grey.shade700,
+                        color: AppColors.cardBackground, // Dinámico
                       ),
                       const SizedBox(height: 8),
                       Container(
                         height: 14,
                         width: 80,
-                        color: Colors.grey.shade700,
+                        color: AppColors.cardBackground, // Dinámico
                       ),
                     ],
                   ),

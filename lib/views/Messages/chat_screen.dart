@@ -15,14 +15,14 @@ class ChatScreen extends StatelessWidget {
         backgroundColor: AppColors.primary,
         title: Text(
           chatTitle,
-          style: const TextStyle(
-            color: AppColors.textLight,
+          style: TextStyle(
+            color: AppColors.textPrimary,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textLight),
+          icon: Icon(Icons.arrow_back, color: AppColors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -56,29 +56,28 @@ class ChatScreen extends StatelessWidget {
               ],
             ),
           ),
-        Padding(
-  padding: const EdgeInsets.all(8.0),
-  child: Row(
-    children: [
-      Expanded(
-        child: TextField(
-          decoration: InputDecoration(
-            hintText: "Escribe un mensaje...",
-            hintStyle: const TextStyle(color: AppColors.textSecondary), // Added const
-            filled: true,
-            fillColor: AppColors.cardBackground,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25), // BorderRadius can't be const
-              borderSide: BorderSide.none,
-            ),
-          ),
-        ),
-      ),
-      IconButton(
-        icon: const Icon(Icons.send, color: AppColors.iconSelected), // Added const
-        onPressed: () {
-          // Lógica para enviar mensaje
-
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: "Escribe un mensaje...",
+                      hintStyle: TextStyle(color: AppColors.textSecondary),
+                      filled: true,
+                      fillColor: AppColors.cardBackground,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.send, color: AppColors.iconSelected),
+                  onPressed: () {
+                    // Lógica para enviar mensaje
                   },
                 ),
               ],
@@ -102,7 +101,7 @@ class BubbleMessage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       margin: const EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
-        color: isSender ? AppColors.iconSelected : AppColors.cardBackground, // Morado si es el remitente
+        color: isSender ? AppColors.iconSelected : AppColors.cardBackground,
         borderRadius: BorderRadius.only(
           topLeft: const Radius.circular(20),
           topRight: const Radius.circular(20),
@@ -114,7 +113,7 @@ class BubbleMessage extends StatelessWidget {
         message,
         style: TextStyle(
           fontSize: 16,
-          color: isSender ? AppColors.textLight : AppColors.textDark, // Texto blanco si es morado
+          color: isSender ? AppColors.textPrimary : AppColors.textSecondary,
         ),
       ),
     );

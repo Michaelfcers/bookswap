@@ -14,22 +14,22 @@ class MessagesScreen extends StatelessWidget {
         backgroundColor: AppColors.scaffoldBackground,
         appBar: AppBar(
           backgroundColor: AppColors.primary,
-          title: const Text(
+          title: Text(
             "Mensajes",
             style: TextStyle(
-              color: AppColors.textLight,
+              color: AppColors.textPrimary,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: AppColors.textLight),
+            icon: Icon(Icons.arrow_back, color: AppColors.textPrimary),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-          children: const [
+          children: [
             // Chat 1
             _ChatItem(
               chatTitle: "Usuario123",
@@ -79,23 +79,23 @@ class _ChatItem extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
         margin: const EdgeInsets.symmetric(vertical: 5),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: AppColors.cardBackground,
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
           boxShadow: [
             BoxShadow(
               color: AppColors.shadow,
               blurRadius: 6,
-              offset: Offset(0, 3),
+              offset: const Offset(0, 3),
             ),
           ],
         ),
         child: Row(
           children: [
-            const CircleAvatar(
+            CircleAvatar(
               backgroundColor: AppColors.shadow,
               radius: 28,
-              child: Icon(Icons.person, color: AppColors.textLight, size: 30),
+              child: Icon(Icons.person, color: AppColors.textPrimary, size: 30),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -104,16 +104,16 @@ class _ChatItem extends StatelessWidget {
                 children: [
                   Text(
                     chatTitle,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.textDark,
+                      color: AppColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 5),
                   Text(
                     lastMessage,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       color: AppColors.textSecondary,
                     ),
@@ -123,7 +123,7 @@ class _ChatItem extends StatelessWidget {
             ),
             Text(
               time,
-              style: const TextStyle(fontSize: 14, color: AppColors.textSecondary),
+              style: TextStyle(fontSize: 14, color: AppColors.textSecondary),
             ),
           ],
         ),

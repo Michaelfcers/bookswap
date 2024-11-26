@@ -19,12 +19,12 @@ class BookEditScreen extends StatelessWidget {
       backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        title: const Text(
+        title: Text(
           "Editar Libro",
-          style: TextStyle(color: AppColors.textLight, fontSize: 22),
+          style: TextStyle(color: AppColors.textPrimary, fontSize: 22),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textLight),
+          icon: Icon(Icons.arrow_back, color: AppColors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -38,12 +38,17 @@ class BookEditScreen extends StatelessWidget {
               width: 160,
               height: 220,
               decoration: BoxDecoration(
-                color: Colors.grey.shade800,
+                color: AppColors.shadow,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: book.thumbnail.isNotEmpty
                   ? Image.network(book.thumbnail, fit: BoxFit.cover)
-                  : const Center(child: Text('160 x 220', style: TextStyle(color: AppColors.textLight))),
+                  : Center(
+                      child: Text(
+                        '160 x 220',
+                        style: TextStyle(color: AppColors.textPrimary),
+                      ),
+                    ),
             ),
             const SizedBox(height: 24),
 
@@ -67,12 +72,18 @@ class BookEditScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Libro editado con éxito')),
+                  SnackBar(
+                    content: Text(
+                      'Libro editado con éxito',
+                      style: TextStyle(color: AppColors.textPrimary),
+                    ),
+                    backgroundColor: AppColors.cardBackground,
+                  ),
                 );
               },
-              child: const Text(
+              child: Text(
                 "Guardar cambios",
-                style: TextStyle(fontSize: 18, color: AppColors.textLight),
+                style: TextStyle(fontSize: 18, color: AppColors.textPrimary),
               ),
             ),
           ],
@@ -87,15 +98,19 @@ class BookEditScreen extends StatelessWidget {
       maxLines: maxLines,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(color: AppColors.iconSelected),
+        labelStyle: TextStyle(color: AppColors.iconSelected),
         filled: true,
         fillColor: AppColors.cardBackground,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.iconSelected),
+          borderSide: BorderSide(color: AppColors.iconSelected),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: AppColors.iconSelected),
         ),
       ),
-      style: const TextStyle(color: AppColors.textDark), // Cambiamos a textDark para el texto editable
+      style: TextStyle(color: AppColors.textPrimary),
     );
   }
 }

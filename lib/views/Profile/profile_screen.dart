@@ -1,5 +1,5 @@
-// lib/views/Profile/profile_screen.dart
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../models/book_model.dart';
 import '../../../services/google_books_service.dart';
 import '../Settings/settings_screen.dart';
@@ -7,6 +7,8 @@ import '../Books/add_book_dialog.dart';
 import '../Books/book_detail_edit_screen.dart';
 import '../../styles/colors.dart'; // Importamos AppColors
 import 'edit_profile_screen.dart'; // Importamos la nueva pantalla de edición de perfil
+import '../../styles/theme_notifier.dart'; // Importamos el ThemeNotifier
+import '../../auth_notifier.dart'; // Importamos el AuthNotifier
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -35,29 +37,45 @@ class ProfileScreenState extends State<ProfileScreen> {
         isLoading = false;
       });
     } catch (error) {
-      debugPrint(
-          'Error al cargar los libros: $error'); // Utiliza debugPrint en vez de print
+      debugPrint('Error al cargar los libros: $error');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
+    final authNotifier = Provider.of<AuthNotifier>(context); // Accedemos al AuthNotifier
+
+
+    // Si el usuario no está logueado, redirigimos al ProfileLoggedOutScreen
+    if (!authNotifier.isLoggedIn) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacementNamed(context, '/profile'); // Redirige al perfil sin sesión
+      });
+      return Container(); // Devuelve un contenedor vacío mientras se realiza la redirección
+    }
+
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
+      backgroundColor: AppColors.scaffoldBackground, // Dinámico
       appBar: AppBar(
-        backgroundColor: AppColors.primary,
-        title: const Text(
+        backgroundColor: AppColors.primary, // Dinámico
+        title: Text(
           "Perfil",
-          style: TextStyle(color: AppColors.textLight),
+          style: TextStyle(color: AppColors.textPrimary), // Dinámico
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings, color: AppColors.textLight),
-            onPressed: () {
-              Navigator.push(
+            icon: Icon(Icons.settings, color: AppColors.textPrimary), // Dinámico
+            onPressed: () async {
+              // Abrimos la pantalla de configuración y esperamos su resultado
+              await Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const SettingsScreen()),
               );
+              // Actualizamos el estado tras regresar
+              setState(() {
+                AppColors.toggleTheme(themeNotifier.isDarkMode);
+              });
             },
           ),
         ],
@@ -69,45 +87,44 @@ class ProfileScreenState extends State<ProfileScreen> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 40,
-                  backgroundColor: Colors.grey,
-                  child:
-                      Icon(Icons.person, size: 40, color: AppColors.textLight),
+                  backgroundColor: AppColors.shadow, // Dinámico
+                  child: Icon(Icons.person,
+                      size: 40, color: AppColors.textPrimary), // Dinámico
                 ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'Usuario123',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.textLight,
+                          color: AppColors.textPrimary, // Dinámico
                         ),
                       ),
-                      const Text(
+                      Text(
                         'Nivel 5 - Lector Ávido',
-                        style: TextStyle(color: AppColors.textLight),
+                        style: TextStyle(color: AppColors.textPrimary), // Dinámico
                       ),
                       const SizedBox(height: 10),
-                      const LinearProgressIndicator(
+                      LinearProgressIndicator(
                         value: 0.75,
-                        color: AppColors
-                            .iconSelected, // Usamos el color morado en la barra de progreso
-                        backgroundColor: Colors.grey,
+                        color: AppColors.iconSelected, // Dinámico
+                        backgroundColor: AppColors.shadow, // Dinámico
                       ),
                       const SizedBox(height: 5),
-                      const Text(
+                      Text(
                         '750/1000 XP',
-                        style: TextStyle(color: AppColors.textLight),
+                        style: TextStyle(color: AppColors.textPrimary), // Dinámico
                       ),
                       const SizedBox(height: 10),
                       OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                          side: const BorderSide(color: AppColors.iconSelected),
+                          side: BorderSide(color: AppColors.iconSelected), // Dinámico
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18),
                           ),
@@ -120,9 +137,10 @@ class ProfileScreenState extends State<ProfileScreen> {
                             ),
                           );
                         },
-                        child: const Text(
+                        child: Text(
                           "Editar perfil",
-                          style: TextStyle(color: AppColors.iconSelected),
+                          style:
+                              TextStyle(color: AppColors.iconSelected), // Dinámico
                         ),
                       ),
                     ],
@@ -174,23 +192,24 @@ class ProfileScreenState extends State<ProfileScreen> {
                 );
               },
               child: Card(
-                color: AppColors.cardBackground,
+                color: AppColors.cardBackground, // Dinámico
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
                 elevation: 3,
-                child: const Center(
+                child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add, color: AppColors.iconSelected, size: 36),
-                      SizedBox(height: 8),
+                      Icon(Icons.add,
+                          color: AppColors.iconSelected, size: 36), // Dinámico
+                      const SizedBox(height: 8),
                       Text(
                         'Agregar libro',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.iconSelected,
+                          color: AppColors.iconSelected, // Dinámico
                         ),
                       ),
                     ],
@@ -210,7 +229,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                 );
               },
               child: Card(
-                color: AppColors.cardBackground,
+                color: AppColors.cardBackground, // Dinámico
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -235,10 +254,10 @@ class ProfileScreenState extends State<ProfileScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         book.title,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
+                          color: AppColors.primary, // Dinámico
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -248,9 +267,9 @@ class ProfileScreenState extends State<ProfileScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
                         book.author,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12,
-                          color: AppColors.textSecondary,
+                          color: AppColors.textSecondary, // Dinámico
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -288,18 +307,18 @@ class ProfileScreenState extends State<ProfileScreen> {
       itemBuilder: (context, index) {
         final achievement = achievements[index];
         return Card(
-          color: AppColors.cardBackground,
+          color: AppColors.cardBackground, // Dinámico
           margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 16),
           child: ListTile(
-            leading:
-                const Icon(Icons.emoji_events, color: AppColors.iconSelected),
+            leading: Icon(Icons.emoji_events,
+                color: AppColors.iconSelected), // Dinámico
             title: Text(
               achievement["title"]!,
-              style: const TextStyle(color: AppColors.textSecondary),
+              style: TextStyle(color: AppColors.textSecondary), // Dinámico
             ),
             subtitle: Text(
               achievement["description"]!,
-              style: const TextStyle(color: AppColors.textSecondary),
+              style: TextStyle(color: AppColors.textSecondary), // Dinámico
             ),
           ),
         );
@@ -322,7 +341,7 @@ class ProfileScreenState extends State<ProfileScreen> {
               bottom: BorderSide(
                 color: _selectedTabIndex == index
                     ? AppColors.iconSelected
-                    : Colors.transparent,
+                    : Colors.transparent, // Dinámico
                 width: 2,
               ),
             ),
@@ -332,7 +351,7 @@ class ProfileScreenState extends State<ProfileScreen> {
               icon,
               color: _selectedTabIndex == index
                   ? AppColors.iconSelected
-                  : AppColors.textLight,
+                  : AppColors.textPrimary, // Dinámico
               size: 28,
             ),
           ),

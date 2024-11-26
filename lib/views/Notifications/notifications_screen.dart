@@ -13,18 +13,18 @@ class NotificationsScreen extends StatelessWidget {
         backgroundColor: AppColors.scaffoldBackground,
         appBar: AppBar(
           backgroundColor: AppColors.primary,
-          title: const Text(
+          title: Text(
             "Notificaciones",
-            style: TextStyle(color: AppColors.textLight),
+            style: TextStyle(color: AppColors.textPrimary),
           ),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: AppColors.textLight),
+            icon: Icon(Icons.arrow_back, color: AppColors.textPrimary),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
         body: ListView(
           padding: const EdgeInsets.all(10),
-          children: const [
+          children: [
             NotificationCard(
               icon: Icons.card_giftcard,
               title: "Nueva solicitud de trueque",
@@ -54,12 +54,13 @@ class NotificationCard extends StatelessWidget {
   final String title;
   final String subtitle;
 
-const NotificationCard({
-  super.key,
-  required this.icon,
-  required this.title,
-  required this.subtitle,
-});
+  const NotificationCard({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -69,15 +70,15 @@ const NotificationCard({
         leading: Icon(icon, color: AppColors.iconSelected, size: 30),
         title: Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: AppColors.textDark,
+            color: AppColors.textPrimary,
           ),
         ),
         subtitle: Text(
           subtitle,
-          style: const TextStyle(fontSize: 16, color: AppColors.textSecondary),
+          style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
         ),
       ),
     );

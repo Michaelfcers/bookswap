@@ -24,12 +24,12 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
       backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        title: const Text(
+        title: Text(
           "Detalles del Libro",
-          style: TextStyle(color: AppColors.textLight, fontSize: 22),
+          style: TextStyle(color: AppColors.textPrimary, fontSize: 22),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textLight),
+          icon: Icon(Icons.arrow_back, color: AppColors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -43,15 +43,15 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
               width: 160,
               height: 220,
               decoration: BoxDecoration(
-                color: Colors.grey.shade800,
+                color: AppColors.shadow,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: book.thumbnail.isNotEmpty
                   ? Image.network(book.thumbnail, fit: BoxFit.cover)
-                  : const Center(
+                  : Center(
                       child: Text(
                         '160 x 220',
-                        style: TextStyle(color: AppColors.textLight),
+                        style: TextStyle(color: AppColors.textPrimary),
                       ),
                     ),
             ),
@@ -60,10 +60,10 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
             // Título y detalles del autor y género
             Text(
               book.title,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: AppColors.textLight,
+                color: AppColors.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -73,21 +73,21 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
             Text.rich(
               TextSpan(
                 children: [
-                  const TextSpan(
+                  TextSpan(
                     text: 'Autor: ',
-                    style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.textLight),
+                    style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.textPrimary),
                   ),
                   TextSpan(
                     text: book.author,
-                    style: const TextStyle(color: AppColors.textLight),
+                    style: TextStyle(color: AppColors.textPrimary),
                   ),
-                  const TextSpan(
+                  TextSpan(
                     text: ' | Género: ',
-                    style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.textLight),
+                    style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.textPrimary),
                   ),
                   TextSpan(
                     text: book.genre ?? 'Sin género especificado',
-                    style: const TextStyle(color: AppColors.textLight),
+                    style: TextStyle(color: AppColors.textPrimary),
                   ),
                 ],
               ),
@@ -99,9 +99,9 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   "Calificación:",
-                  style: TextStyle(fontSize: 18, color: AppColors.textLight),
+                  style: TextStyle(fontSize: 18, color: AppColors.textPrimary),
                 ),
                 const SizedBox(width: 8),
                 Row(
@@ -109,31 +109,31 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                     return Icon(
                       Icons.star,
                       size: 24,
-                      color: index < (book.rating ?? 4) ? Colors.amber : Colors.grey,
+                      color: index < (book.rating ?? 4) ? Colors.amber : AppColors.shadow,
                     );
                   }),
                 ),
                 const SizedBox(width: 5),
                 Text(
                   "${book.rating ?? 4.5}/5",
-                  style: const TextStyle(fontSize: 18, color: AppColors.textLight),
+                  style: TextStyle(fontSize: 18, color: AppColors.textPrimary),
                 ),
               ],
             ),
             const SizedBox(height: 16),
 
             // Sinopsis con opción de ver más
-            const Text(
+            Text(
               "Sinopsis",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.iconSelected),
             ),
             const SizedBox(height: 12),
             Text(
-              book.description ?? "Sin descripción disponible.",
+              book.description?.isNotEmpty == true ? book.description! : "Sin descripción disponible.",
               textAlign: TextAlign.justify,
               maxLines: isExpanded ? null : 5,
               overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 16, color: AppColors.textLight),
+              style: TextStyle(fontSize: 16, color: AppColors.textPrimary),
             ),
             if (book.description != null && book.description!.length > 100)
               Center(
@@ -148,7 +148,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                   ),
                   child: Text(
                     isExpanded ? "Ver menos" : "Ver más",
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: AppColors.iconSelected,
@@ -179,11 +179,11 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                   ),
                 );
               },
-              child: const Text(
+              child: Text(
                 "Proponer Trueque",
                 style: TextStyle(
                   fontSize: 18,
-                  color: AppColors.textLight,
+                  color: AppColors.textPrimary,
                 ),
               ),
             ),

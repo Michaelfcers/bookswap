@@ -1,4 +1,3 @@
-// lib/views/search_screen.dart
 import 'package:flutter/material.dart';
 import 'search_results_screen.dart';
 import '../../styles/colors.dart';
@@ -37,7 +36,7 @@ class SearchScreenState extends State<SearchScreen> {
   void _selectGenre(String genre) {
     setState(() {
       _selectedGenre = genre;
-      _performSearch(genre, isManual: false); 
+      _performSearch(genre, isManual: false);
     });
   }
 
@@ -50,12 +49,14 @@ class SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
+      backgroundColor: AppColors.scaffoldBackground, // Dinámico
       appBar: AppBar(
-        backgroundColor: AppColors.primary,
-        title: const Text(
+        backgroundColor: AppColors.primary, // Dinámico
+        title: Text(
           "Buscar",
-          style: TextStyle(color: AppColors.textLight),
+          style: TextStyle(
+            color: AppColors.textPrimary, // Dinámico
+          ),
         ),
       ),
       body: Padding(
@@ -69,25 +70,25 @@ class SearchScreenState extends State<SearchScreen> {
               onSubmitted: (value) => _performSearch(value),
               decoration: InputDecoration(
                 hintText: 'Buscar libros, autores o géneros...',
-                hintStyle: const TextStyle(color: AppColors.textSecondary),
-                prefixIcon: const Icon(Icons.search, color: AppColors.iconSelected),
+                hintStyle: TextStyle(color: AppColors.textSecondary), // Dinámico
+                prefixIcon: Icon(Icons.search, color: AppColors.iconSelected), // Dinámico
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide.none,
                 ),
                 filled: true,
-                fillColor: AppColors.cardBackground,
+                fillColor: AppColors.cardBackground, // Dinámico
               ),
             ),
             const SizedBox(height: 16),
 
             // Filtros de Género
-            const Text(
+            Text(
               "Explorar Géneros",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: AppColors.iconSelected,
+                color: AppColors.iconSelected, // Dinámico
               ),
             ),
             const SizedBox(height: 10),
@@ -99,10 +100,10 @@ class SearchScreenState extends State<SearchScreen> {
                   label: Text(genre),
                   selected: _selectedGenre == genre,
                   onSelected: (isSelected) => _selectGenre(genre),
-                  selectedColor: AppColors.iconSelected,
-                  backgroundColor: Colors.grey.shade200,
+                  selectedColor: AppColors.iconSelected, // Dinámico
+                  backgroundColor: AppColors.cardBackground, // Dinámico
                   labelStyle: TextStyle(
-                    color: _selectedGenre == genre ? AppColors.textLight : AppColors.iconSelected,
+                    color: _selectedGenre == genre ? AppColors.textPrimary : AppColors.iconSelected, // Dinámico
                   ),
                 );
               }).toList(),
@@ -113,16 +114,16 @@ class SearchScreenState extends State<SearchScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   "Historial de Búsquedas",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.iconSelected,
+                    color: AppColors.iconSelected, // Dinámico
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.delete, color: AppColors.iconSelected),
+                  icon: Icon(Icons.delete, color: AppColors.iconSelected), // Dinámico
                   onPressed: _clearHistory,
                   tooltip: 'Borrar historial',
                 ),
@@ -133,10 +134,10 @@ class SearchScreenState extends State<SearchScreen> {
                 itemCount: _searchHistory.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    leading: const Icon(Icons.history, color: AppColors.iconSelected),
+                    leading: Icon(Icons.history, color: AppColors.iconSelected), // Dinámico
                     title: Text(
                       _searchHistory[index],
-                      style: const TextStyle(color: AppColors.iconSelected),
+                      style: TextStyle(color: AppColors.iconSelected), // Dinámico
                     ),
                     onTap: () {
                       _performSearch(_searchHistory[index]);

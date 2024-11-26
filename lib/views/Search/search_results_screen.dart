@@ -1,4 +1,3 @@
-// lib/views/search_results_screen.dart
 import 'package:flutter/material.dart';
 import '../../models/book_model.dart';
 import '../../services/google_books_service.dart';
@@ -13,7 +12,6 @@ class SearchResultsScreen extends StatefulWidget {
   SearchResultsScreenState createState() => SearchResultsScreenState();
 }
 
-// Removed the underscore to make this class public
 class SearchResultsScreenState extends State<SearchResultsScreen> {
   final GoogleBooksService booksService = GoogleBooksService();
   late Future<List<Book>> _searchResults;
@@ -27,27 +25,35 @@ class SearchResultsScreenState extends State<SearchResultsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
+      backgroundColor: AppColors.scaffoldBackground, // Dinámico
       appBar: AppBar(
-        backgroundColor: AppColors.primary,
-        iconTheme: const IconThemeData(color: AppColors.textLight), // Agrega color al ícono de regresar
+        backgroundColor: AppColors.primary, // Dinámico
+        iconTheme: IconThemeData(color: AppColors.textPrimary), // Dinámico
         title: Text(
           widget.query, // Muestra el término o categoría en el encabezado
-          style: const TextStyle(color: AppColors.textLight),
+          style: TextStyle(color: AppColors.textPrimary), // Dinámico
         ),
       ),
       body: FutureBuilder<List<Book>>(
         future: _searchResults,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(
+              child: CircularProgressIndicator(color: AppColors.primary), // Dinámico
+            );
           } else if (snapshot.hasError) {
-            return const Center(
-              child: Text("Error al cargar resultados", style: TextStyle(color: AppColors.textLight)),
+            return Center(
+              child: Text(
+                "Error al cargar resultados",
+                style: TextStyle(color: AppColors.textPrimary), // Dinámico
+              ),
             );
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(
-              child: Text("No se encontraron resultados", style: TextStyle(color: AppColors.textLight)),
+            return Center(
+              child: Text(
+                "No se encontraron resultados",
+                style: TextStyle(color: AppColors.textPrimary), // Dinámico
+              ),
             );
           } else {
             final books = snapshot.data!;
@@ -57,16 +63,32 @@ class SearchResultsScreenState extends State<SearchResultsScreen> {
                 final book = books[index];
                 return ListTile(
                   leading: book.thumbnail.isNotEmpty
-                      ? Image.network(book.thumbnail, width: 50)
-                      : const Icon(Icons.book, size: 50, color: AppColors.iconSelected), // Added `const`
+                      ? Image.network(
+                          book.thumbnail,
+                          width: 50,
+                          fit: BoxFit.cover,
+                        )
+                      : Icon(
+                          Icons.book,
+                          size: 50,
+                          color: AppColors.iconSelected, // Dinámico
+                        ),
                   title: Text(
                     book.title,
-                    style: const TextStyle(color: AppColors.textLight),
+                    style: TextStyle(
+                      color: AppColors.textPrimary, // Dinámico
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   subtitle: Text(
                     book.author,
-                    style: const TextStyle(color: AppColors.textLight), // Added `const`
+                    style: TextStyle(
+                      color: AppColors.textSecondary, // Dinámico
+                    ),
                   ),
+                  onTap: () {
+                    // Aquí puedes implementar una navegación hacia los detalles del libro
+                  },
                 );
               },
             );

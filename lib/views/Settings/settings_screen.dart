@@ -1,22 +1,29 @@
-// lib/views/profile/settings_screen.dart
 import 'package:flutter/material.dart';
-import '../../styles/colors.dart'; // Importamos AppColors para colores globales
+import 'package:provider/provider.dart';
+import '../../styles/colors.dart';
+import '../../styles/theme_notifier.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
+
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
+      backgroundColor: AppColors.scaffoldBackground, // Dinámico
       appBar: AppBar(
-        backgroundColor: AppColors.primary,
-        title: const Text(
+        backgroundColor: AppColors.primary, // Dinámico
+        title: Text(
           "Configuración",
-          style: TextStyle(color: AppColors.textLight, fontSize: 22, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: AppColors.textPrimary, // Dinámico
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textLight),
+          icon: Icon(Icons.arrow_back, color: AppColors.textPrimary), // Dinámico
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -29,23 +36,53 @@ class SettingsScreen extends StatelessWidget {
             context,
             icon: Icons.language,
             title: "Idioma",
-            trailing: const Text("Español", style: TextStyle(color: AppColors.textLight, fontSize: 16)),
+            trailing: Text(
+              "Español",
+              style: TextStyle(
+                color: AppColors.textPrimary, // Dinámico
+                fontSize: 16,
+              ),
+            ),
             onTap: () {
               // Implementar cambio de idioma
             },
           ),
-          const Divider(color: AppColors.divider),
+          Divider(color: AppColors.divider), // Dinámico
           SwitchListTile(
-            activeColor: AppColors.iconSelected,
+            activeColor: AppColors.iconSelected, // Dinámico
             contentPadding: EdgeInsets.zero,
-            title: const Text("Notificaciones", style: TextStyle(fontSize: 18, color: AppColors.textLight)),
+            title: Text(
+              "Notificaciones",
+              style: TextStyle(
+                fontSize: 18,
+                color: AppColors.textPrimary, // Dinámico
+              ),
+            ),
             value: true, // Cambia esto según el estado de las notificaciones
             onChanged: (bool value) {
               // Implementar activación/desactivación de notificaciones
             },
           ),
-          const Divider(color: AppColors.divider),
-
+          Divider(color: AppColors.divider), // Dinámico
+          // NUEVO SWITCH PARA TEMA OSCURO/CLARO
+          SwitchListTile(
+            activeColor: AppColors.iconSelected, // Dinámico
+            contentPadding: EdgeInsets.zero,
+            title: Text(
+              "Modo Oscuro",
+              style: TextStyle(
+                fontSize: 18,
+                color: AppColors.textPrimary, // Dinámico
+              ),
+            ),
+            value: themeNotifier.isDarkMode, // Determinamos el estado del tema actual
+            onChanged: (bool value) {
+              // Cambiamos el tema utilizando ThemeNotifier
+              themeNotifier.updateTheme(value ? ThemeMode.dark : ThemeMode.light);
+              AppColors.toggleTheme(value); // Actualizamos el tema en AppColors
+            },
+          ),
+          Divider(color: AppColors.divider), // Dinámico
           const SizedBox(height: 20),
           _buildSectionTitle("Seguridad"),
           const SizedBox(height: 10),
@@ -57,7 +94,7 @@ class SettingsScreen extends StatelessWidget {
               // Implementar cambio de contraseña
             },
           ),
-          const Divider(color: AppColors.divider),
+          Divider(color: AppColors.divider), // Dinámico
           _buildSettingsOption(
             context,
             icon: Icons.description,
@@ -67,10 +104,9 @@ class SettingsScreen extends StatelessWidget {
             },
           ),
           const SizedBox(height: 30),
-
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.iconSelected,
+              backgroundColor: AppColors.iconSelected, // Dinámico
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -79,9 +115,12 @@ class SettingsScreen extends StatelessWidget {
             onPressed: () {
               // Implementar cierre de sesión
             },
-            child: const Text(
+            child: Text(
               "Cerrar sesión",
-              style: TextStyle(color: AppColors.textLight, fontSize: 18),
+              style: TextStyle(
+                color: AppColors.textPrimary, // Dinámico
+                fontSize: 18,
+              ),
             ),
           ),
         ],
@@ -93,7 +132,11 @@ class SettingsScreen extends StatelessWidget {
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
-      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.iconSelected),
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: AppColors.iconSelected, // Dinámico
+      ),
     );
   }
 
@@ -102,10 +145,14 @@ class SettingsScreen extends StatelessWidget {
       {required IconData icon, required String title, Widget? trailing, VoidCallback? onTap}) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
-      leading: Icon(icon, color: AppColors.iconSelected, size: 28),
+      leading: Icon(icon, color: AppColors.iconSelected, size: 28), // Dinámico
       title: Text(
         title,
-        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: AppColors.textLight),
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w500,
+          color: AppColors.textPrimary, // Dinámico
+        ),
       ),
       trailing: trailing,
       onTap: onTap,

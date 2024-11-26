@@ -1,9 +1,11 @@
-// lib/screens/layout.dart
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../Home/home_screen.dart';
 import '../Search/search_screen.dart';
 import '../Profile/profile_screen.dart';
+import '../Profile/profile_logged_out_screen.dart'; // Nueva pantalla
 import '../../styles/colors.dart';
+import '../../auth_notifier.dart'; // Importamos el AuthNotifier
 
 class Layout extends StatefulWidget {
   final Widget body;
@@ -12,7 +14,7 @@ class Layout extends StatefulWidget {
   final bool showBottomNav;
 
   const Layout({
-    super.key,  // Super parámetro
+    super.key, // Super parámetro
     required this.body,
     this.currentIndex = 0,
     this.onTabSelected,
@@ -20,10 +22,10 @@ class Layout extends StatefulWidget {
   });
 
   @override
-  LayoutState createState() => LayoutState();  // Clase de estado pública
+  LayoutState createState() => LayoutState(); // Clase de estado pública
 }
 
-class LayoutState extends State<Layout> {  // Clase pública
+class LayoutState extends State<Layout> {
   late int _currentIndex;
 
   @override
@@ -47,7 +49,11 @@ class LayoutState extends State<Layout> {  // Clase pública
         nextScreen = const SearchScreen();
         break;
       case 2:
-        nextScreen = const ProfileScreen();
+        // Decidimos dinámicamente si mostrar el perfil o el perfil sin sesión
+        final authNotifier = Provider.of<AuthNotifier>(context, listen: false);
+        nextScreen = authNotifier.isLoggedIn
+            ? const ProfileScreen() // Usuario logueado
+            : const ProfileLoggedOutScreen(); // Usuario no logueado
         break;
       default:
         nextScreen = const HomeScreen();

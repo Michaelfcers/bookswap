@@ -24,18 +24,18 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
       builder: (context) {
         return AlertDialog(
           backgroundColor: AppColors.cardBackground,
-          title: const Text(
+          title: Text(
             "Eliminar Libro",
-            style: TextStyle(color: AppColors.textDark),
+            style: TextStyle(color: AppColors.textPrimary),
           ),
-          content: const Text(
+          content: Text(
             "¿Estás seguro de que deseas eliminar este libro?",
             style: TextStyle(color: AppColors.textSecondary),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text(
+              child: Text(
                 "Cancelar",
                 style: TextStyle(color: AppColors.iconSelected),
               ),
@@ -45,17 +45,16 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
                 backgroundColor: AppColors.iconSelected,
               ),
               onPressed: () {
-                Navigator.of(context).pop(); // Cierra el diálogo de confirmación
-
-// Redirige a la pantalla de perfil usando Layout directamente
-Navigator.of(context).pushAndRemoveUntil(
-  MaterialPageRoute( // Eliminado `const` aquí
-    builder: (context) => const Layout(body: ProfileScreen(), currentIndex: 2),
-  ),
-  (Route<dynamic> route) => false,
-);
-
-
+                Navigator.of(context).pop();
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => const Layout(
+                      body: ProfileScreen(),
+                      currentIndex: 2,
+                    ),
+                  ),
+                  (Route<dynamic> route) => false,
+                );
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: const Text("Libro eliminado"),
@@ -69,9 +68,9 @@ Navigator.of(context).pushAndRemoveUntil(
                   ),
                 );
               },
-              child: const Text(
+              child: Text(
                 "Eliminar",
-                style: TextStyle(color: AppColors.textLight),
+                style: TextStyle(color: AppColors.textPrimary),
               ),
             ),
           ],
@@ -88,12 +87,12 @@ Navigator.of(context).pushAndRemoveUntil(
       backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        title: const Text(
+        title: Text(
           "Detalles del Libro",
-          style: TextStyle(color: AppColors.textLight),
+          style: TextStyle(color: AppColors.textPrimary),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textLight),
+          icon: Icon(Icons.arrow_back, color: AppColors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -107,19 +106,28 @@ Navigator.of(context).pushAndRemoveUntil(
               width: 160,
               height: 220,
               decoration: BoxDecoration(
-                color: Colors.grey.shade800,
+                color: AppColors.shadow,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: book.thumbnail.isNotEmpty
                   ? Image.network(book.thumbnail, fit: BoxFit.cover)
-                  : const Center(child: Text('160 x 220', style: TextStyle(color: AppColors.textLight))),
+                  : Center(
+                      child: Text(
+                        '160 x 220',
+                        style: TextStyle(color: AppColors.textPrimary),
+                      ),
+                    ),
             ),
             const SizedBox(height: 24),
 
             // Título
             Text(
               book.title,
-              style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: AppColors.textLight),
+              style: TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+                color: AppColors.textPrimary,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 12),
@@ -127,13 +135,13 @@ Navigator.of(context).pushAndRemoveUntil(
             // Autor y género
             Text(
               "Autor: ${book.author}",
-              style: const TextStyle(fontSize: 18, color: AppColors.textLight),
+              style: TextStyle(fontSize: 18, color: AppColors.textPrimary),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 5),
             Text(
               "Género: ${book.genre ?? 'Sin género especificado'}",
-              style: const TextStyle(fontSize: 18, color: AppColors.textLight),
+              style: TextStyle(fontSize: 18, color: AppColors.textPrimary),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
@@ -142,30 +150,37 @@ Navigator.of(context).pushAndRemoveUntil(
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Calificación:", style: TextStyle(fontSize: 18, color: AppColors.textLight)),
+                Text(
+                  "Calificación:",
+                  style: TextStyle(fontSize: 18, color: AppColors.textPrimary),
+                ),
                 const SizedBox(width: 8),
                 Row(
                   children: List.generate(5, (index) {
                     return Icon(
                       Icons.star,
                       size: 24,
-                      color: index < (book.rating ?? 4) ? Colors.amber : Colors.grey,
+                      color: index < (book.rating ?? 4) ? Colors.amber : AppColors.shadow,
                     );
                   }),
                 ),
                 const SizedBox(width: 5),
                 Text(
                   "${book.rating ?? 4.5}/5",
-                  style: const TextStyle(fontSize: 18, color: AppColors.textLight),
+                  style: TextStyle(fontSize: 18, color: AppColors.textPrimary),
                 ),
               ],
             ),
             const SizedBox(height: 24),
 
             // Sinopsis
-            const Text(
+            Text(
               "Sinopsis",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.iconSelected),
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: AppColors.iconSelected,
+              ),
             ),
             const SizedBox(height: 12),
             Text(
@@ -173,7 +188,7 @@ Navigator.of(context).pushAndRemoveUntil(
               textAlign: TextAlign.justify,
               maxLines: isExpanded ? null : 5,
               overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 18, color: AppColors.textLight),
+              style: TextStyle(fontSize: 18, color: AppColors.textPrimary),
             ),
             if (book.description != null && book.description!.length > 100)
               TextButton(
@@ -187,17 +202,16 @@ Navigator.of(context).pushAndRemoveUntil(
                 ),
                 child: Text(
                   isExpanded ? "Ver menos" : "Ver más",
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: AppColors.iconSelected,
                   ),
                 ),
               ),
-
             const SizedBox(height: 24),
 
-            // Botones de Editar y Eliminar con fondo
+            // Botones de Editar y Eliminar
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -215,7 +229,7 @@ Navigator.of(context).pushAndRemoveUntil(
                       ),
                     );
                   },
-                  child: const Icon(Icons.edit, color: AppColors.textLight, size: 32),
+                  child: Icon(Icons.edit, color: AppColors.textPrimary, size: 32),
                 ),
                 const SizedBox(width: 20),
                 ElevatedButton(
@@ -225,7 +239,7 @@ Navigator.of(context).pushAndRemoveUntil(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   ),
                   onPressed: () => _showDeleteConfirmationDialog(context),
-                  child: const Icon(Icons.delete, color: AppColors.textLight, size: 32),
+                  child: Icon(Icons.delete, color: AppColors.textPrimary, size: 32),
                 ),
               ],
             ),
