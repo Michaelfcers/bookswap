@@ -1,43 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart'; // Importamos Provider para manejar el estado global
-import 'styles/colors.dart'; // Importamos los colores y lógica dinámica
-import 'styles/theme_notifier.dart'; // Importamos ThemeNotifier
+import 'package:provider/provider.dart'; // Para manejar estado global
+import 'styles/colors.dart'; // Importamos colores y temas dinámicos
+import 'styles/theme_notifier.dart'; // Para cambiar entre tema claro/oscuro
+import 'auth_notifier.dart'; // Para manejar el estado de autenticación
 import 'views/Home/home_screen.dart';
 import 'views/Search/search_screen.dart';
 import 'views/Profile/profile_screen.dart';
-import 'views/Profile/profile_logged_out_screen.dart'; // Nueva pantalla
+import 'views/Profile/profile_logged_out_screen.dart';
 import 'views/Layout/layout.dart';
-import 'views/Home/start_page.dart'; // Importamos la pantalla de inicio
+import 'views/Home/start_page.dart'; // Pantalla de inicio
+import 'views/Home/home_screen_logged_out.dart'; // Importamos la clase correcta
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => ThemeNotifier(), // Proveemos ThemeNotifier
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeNotifier()), // Proveedor para el tema
+        ChangeNotifierProvider(create: (_) => AuthNotifier()), // Proveedor para autenticación
+      ],
       child: const MyApp(),
     ),
   );
 }
-
-// Simulación de estado global para inicio de sesión
-bool isUserLoggedIn = false; // Cambiar según el estado del usuario
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final themeNotifier = Provider.of<ThemeNotifier>(context); // Accedemos al estado del tema actual
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
 
     return MaterialApp(
       title: 'BookSwap',
       debugShowCheckedModeBanner: false,
-      theme: AppColors.getThemeData(false), // Tema claro personalizado desde AppColors
-      darkTheme: AppColors.getThemeData(true), // Tema oscuro personalizado desde AppColors
-      themeMode: themeNotifier.isDarkMode ? ThemeMode.dark : ThemeMode.light, // Selección dinámica de tema
+      theme: AppColors.getThemeData(false), // Tema claro
+      darkTheme: AppColors.getThemeData(true), // Tema oscuro
+      themeMode: themeNotifier.isDarkMode ? ThemeMode.dark : ThemeMode.light,
       initialRoute: '/start', // Ruta inicial
       routes: {
         '/start': (context) => const StartPage(), // Pantalla inicial
-        '/home': (context) => const LayoutWrapper(index: 0), // Pantalla Home
+         '/home': (context) => const HomeScreen(),
+        '/homeLoggedOut': (context) => const HomeScreenLoggedOut(), // Clase HomeScreenLoggedOut
         '/search': (context) => const LayoutWrapper(index: 1), // Pantalla Buscar
         '/profile': (context) => const LayoutWrapper(index: 2), // Pantalla Perfil
       },
@@ -45,26 +48,28 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// Wrapper para administrar la navegación entre tabs en el layout principal
+// Wrapper para manejar las diferentes pantallas dentro del Layout
 class LayoutWrapper extends StatelessWidget {
   final int index;
   const LayoutWrapper({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
+    final authNotifier = Provider.of<AuthNotifier>(context);
+
     final List<Widget> screens = [
-      const HomeScreen(),    // Índice 0 - Home
-      const SearchScreen(),  // Índice 1 - Buscar
-      isUserLoggedIn
-          ? const ProfileScreen() // Índice 2 - Perfil (logueado)
-          : const ProfileLoggedOutScreen(), // Índice 2 - Perfil (no logueado)
+      const HomeScreen(),
+      const SearchScreen(),
+      authNotifier.isLoggedIn
+          ? const ProfileScreen() // Perfil cuando está logueado
+          : const ProfileLoggedOutScreen(), // Perfil cuando no está logueado
     ];
 
     return Layout(
-      body: screens[index], // Pantalla actual según el índice
+      body: screens[index],
       currentIndex: index,
       onTabSelected: (selectedIndex) {
-        // Navegación según la tab seleccionada
+        // Navegación dinámica según la tab seleccionada
         String route;
         switch (selectedIndex) {
           case 0:
@@ -79,7 +84,7 @@ class LayoutWrapper extends StatelessWidget {
             break;
         }
         if (selectedIndex != index) {
-          Navigator.pushReplacementNamed(context, route); // Navegación con reemplazo
+          Navigator.pushReplacementNamed(context, route);
         }
       },
     );

@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart'; // Para AuthNotifier
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../models/book_model.dart';
 import '../../services/google_books_service.dart';
-import '../Layout/layout.dart';
-import '../Books/add_book_dialog.dart';
-import '../Notifications/notifications_screen.dart';
-import '../Messages/messages_screen.dart';
+import '../Login/login_screen.dart';
 import '../Books/book_details_screen.dart';
 import '../../styles/colors.dart';
-import '../../auth_notifier.dart'; // Importamos AuthNotifier
+import '../../auth_notifier.dart'; // Para manejar la sesión del usuario
+import '../Layout/layout.dart'; // Importamos Layout
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreenLoggedOut extends StatefulWidget { 
+  const HomeScreenLoggedOut({super.key});
 
   @override
-  HomeScreenState createState() => HomeScreenState();
+  _HomeScreenLoggedOutState createState() => _HomeScreenLoggedOutState();
 }
 
-class HomeScreenState extends State<HomeScreen> {
+class _HomeScreenLoggedOutState extends State<HomeScreenLoggedOut> {
   final GoogleBooksService booksService = GoogleBooksService();
   List<Book> featuredBooks = [];
   List<Book> recommendedBooks = [];
@@ -49,6 +47,7 @@ class HomeScreenState extends State<HomeScreen> {
       });
     } catch (error) {
       debugPrint('Error: $error');
+
       if (!mounted) return;
 
       setState(() {
@@ -57,17 +56,92 @@ class HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void _showLoginPrompt() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          backgroundColor: AppColors.scaffoldBackground,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Inicia Sesión",
+                  style: TextStyle(
+                    color: AppColors.textPrimary,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  "Debes iniciar sesión para acceder a esta funcionalidad.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(
+                        "Cancelar",
+                        style: TextStyle(
+                          color: AppColors.iconUnselected,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginScreen(),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.iconSelected,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        "Iniciar Sesión",
+                        style: TextStyle(
+                          color: AppColors.cardBackground,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final authNotifier = Provider.of<AuthNotifier>(context);
-
-    // Si el usuario no está logueado, redirigimos al HomeScreenLoggedOut
-    if (!authNotifier.isLoggedIn) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pushReplacementNamed(context, '/homeLoggedOut'); // Ruta de HomeScreenLoggedOut
-      });
-      return Container(); // Contenedor vacío mientras se redirige
-    }
 
     return Layout(
       body: Scaffold(
@@ -86,21 +160,19 @@ class HomeScreenState extends State<HomeScreen> {
           actions: [
             IconButton(
               icon: Icon(Icons.message, color: AppColors.textPrimary),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MessagesScreen()),
-                );
-              },
+              onPressed: authNotifier.isLoggedIn
+                  ? () {
+                      // Acción para mensajes si está logueado
+                    }
+                  : _showLoginPrompt,
             ),
             IconButton(
               icon: Icon(Icons.notifications, color: AppColors.textPrimary),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const NotificationsScreen()),
-                );
-              },
+              onPressed: authNotifier.isLoggedIn
+                  ? () {
+                      // Acción para notificaciones si está logueado
+                    }
+                  : _showLoginPrompt,
             ),
           ],
         ),
@@ -131,16 +203,11 @@ class HomeScreenState extends State<HomeScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: AppColors.primary,
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => const AddBookDialog(),
-            );
-          },
+          onPressed: _showLoginPrompt,
           child: Icon(Icons.add, color: AppColors.textPrimary),
         ),
       ),
-      showBottomNav: false,
+      currentIndex: 0, // Se asegura de mostrar la pestaña de Home
     );
   }
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart'; // Importamos Provider para manejar el estado global
 import '../Home/home_screen.dart';
 import '../Search/search_screen.dart';
 import '../Profile/profile_screen.dart';
@@ -39,7 +39,7 @@ class LayoutState extends State<Layout> {
       _currentIndex = index;
     });
 
-    // Definir las rutas a las pantallas
+    // Decidimos dinámicamente la pantalla a mostrar
     Widget nextScreen;
     switch (index) {
       case 0:
@@ -49,7 +49,7 @@ class LayoutState extends State<Layout> {
         nextScreen = const SearchScreen();
         break;
       case 2:
-        // Decidimos dinámicamente si mostrar el perfil o el perfil sin sesión
+        // Accedemos a AuthNotifier para decidir entre las pantallas de perfil
         final authNotifier = Provider.of<AuthNotifier>(context, listen: false);
         nextScreen = authNotifier.isLoggedIn
             ? const ProfileScreen() // Usuario logueado
@@ -60,9 +60,11 @@ class LayoutState extends State<Layout> {
         break;
     }
 
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => Layout(body: nextScreen, currentIndex: index)),
-      (route) => false,
+    // Navegación con reemplazo para mantener el contexto de Provider
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => Layout(body: nextScreen, currentIndex: index),
+      ),
     );
   }
 
